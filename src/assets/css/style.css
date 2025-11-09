@@ -118,6 +118,10 @@
         5.9 Box-layout CSS
 
  */
+ html,
+ body {
+     font-family: Vazirmatn, sans-serif !important;
+ }
 :root {
   --theme-deafult: #7366ff;
   --theme-secondary: #f73164;
