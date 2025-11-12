@@ -28,14 +28,14 @@
                     <h4>ثبت محصول جدید</h4>
                 </div>
                 <div class="card-body custom-input">
-                    <form class="row g-3">
+                    <form class="row g-3" [formGroup]="SubmitProduct">
                         <div class="col-12">
                             <label class="form-label" for="fullname">نام محصول</label>
-                            <input class="form-control" id="fullname" type="text" placeholder="نام محصول" aria-label="نام محصول" required>
+                            <input class="form-control" id="fullname" type="text" placeholder="نام محصول" aria-label="نام محصول" formControlName="name" required>
                         </div>
 
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">ارسال</button>
+                            <button class="btn btn-primary" type="submit" (click)="SubmitNewProduct()">ارسال</button>
                         </div>
                     </form>
                 </div>
@@ -57,18 +57,80 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @for (product of Products; track $index) {
                             <tr>
-                                <th scope="row">1</th>
-                                <td>متوسط</td>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ product.name }}</td>
                                 <td>
-                                    <button class="btn btn-warning">ویرایش</button>
-                                    <button class="btn btn-danger" style="margin-right: 2%;">حذف</button>
+                                    <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editModal" (click)="FillEditForm(product)">ویرایش</button>
+                                    <button class="btn btn-danger" style="margin-right: 2%;" data-bs-toggle="modal" data-bs-target="#ConfirmDeleteModal" (click)="sendId(product.id)">حذف</button>
                                 </td>
                             </tr>
-
+                            }
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">ویرایش محصول</h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex mt-3">
+                    <form class="row g-3" style="padding: 5%;" [formGroup]="editProduct">
+                        <div class="col-6">
+                            <label class="form-label" for="fullname">نام محصول</label>
+                            <input class="form-control" id="fullname" type="text" formControlName="name" placeholder="نام محصول" aria-label="نام محصول" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="fullname">وضعیت</label>
+                            <button class="form-control btn btn-secondary" formControlName="isActive" *ngIf="editProduct.controls['isActive'].value == false" type="button"(click)="ToggleIsActive()">
+                            غیرفعال
+                          </button>
+                            <button class="form-control btn btn-primary active" formControlName="isActive" *ngIf="editProduct.controls['isActive'].value == true" type="button" title="btn btn-primary active" (click)="ToggleIsActive()">فعال</button>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">بستن</button>
+                <button class="btn btn-primary" type="button" (click)="SubmitEditProduct()">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ConfirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-toggle-wrapper text-center">
+                    <ul class="modal-img">
+                        <li><img src="../assets/images/gif/danger.gif" alt="error"></li>
+                    </ul>
+                    <h4 class="pb-2">اخطار!</h4>
+                    <p>آیا از حذف این رکورد مطمئن هستید؟</p>
+
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <button class="btn btn-success" type="button" data-bs-dismiss="modal">
+                        خیر، حذف نکن
+                      </button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" (click)="DeleteProduct()">
+                        بله، حذف کن
+                      </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
