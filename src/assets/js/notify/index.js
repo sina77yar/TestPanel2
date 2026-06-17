@@ -1,7 +1,7 @@
 (function ($) {
   "use strict";
   var notify = $.notify(
-    '<i class="fa fa-bell-o"></i><strong>Loading</strong> page Do not close this page...',
+    '<i class="fa fa-bell-o"></i><strong>در حال بارگیری</strong> داده های داخلی.',
     {
       type: "theme",
       allow_dismiss: true,

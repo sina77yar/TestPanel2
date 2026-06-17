@@ -8,7 +8,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard-01.html">
+                            <a href="/">
                                 <svg class="stroke-icon">
                 <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
               </svg></a>
@@ -28,53 +28,38 @@
                     <h4>ثبت بروکر جدید</h4>
                 </div>
                 <div class="card-body custom-input">
-                    <form class="row g-3">
+                    <form class="row g-3" [formGroup]="AddUserForm">
                         <div class="col-12">
                             <label class="form-label" for="fullname">نام و نام خانوادگی</label>
-                            <input class="form-control" id="fullname" type="text" placeholder="نام" aria-label="نام" required>
+                            <input class="form-control" id="fullname" formControlName="Fullname" type="text" placeholder="نام" aria-label="نام" required>
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="exampleFormControlInput1">آدرس ایمیل</label>
-                            <input class="form-control" id="exampleFormControlInput1" type="email" placeholder="EMAIL@EMAIL.com" required>
+                            <input class="form-control" id="exampleFormControlInput1" formControlName="Email" type="email" placeholder="EMAIL@EMAIL.com" required>
                         </div>
                         <div class="col-12">
                             <label class="col-sm-12 col-form-label" for="inputPassword">پسورد</label>
-                            <input class="form-control" id="inputPassword" type="password" required>
+                            <input class="form-control" id="inputPassword" formControlName="Password" type="password" required>
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="validationDefault04">کشور حوزه فعالیت</label>
-                            <select class="form-select" id="validationDefault04" required="">
-                      <option selected="" disabled="" value="">انتخاب کنید...</option>
-                      <option>U.K </option>
-                      <option>Thailand</option>
-                      <option>India </option>
-                      <option>U.S</option>
-                    </select>
+                            <p-select [options]="contries" formControlName="Contry" (onChange)="GetAllActiveProvinces($event.value)" optionLabel="name" optionValue="id" placeholder="انتخاب کنید" style="width: 100%">
+                            </p-select>
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="validationDefault04">شهر حوزه فعالیت</label>
-                            <select class="form-select" id="validationDefault04" required="">
-                      <option selected="" disabled="" value="">انتخاب کنید...</option>
-                      <option>U.K </option>
-                      <option>Thailand</option>
-                      <option>India </option>
-                      <option>U.S</option>
-                    </select>
+                            <p-select [options]="provinces" formControlName="Province" optionLabel="provinceName" optionValue="id" placeholder="انتخاب کنید" style="width: 100%">
+                            </p-select>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label" for="validationDefault04">محصول حوزه فعالیت</label>
-                            <select class="form-select" id="validationDefault04" required="">
-                      <option selected="" disabled="" value="">انتخاب کنید...</option>
-                      <option>U.K </option>
-                      <option>Thailand</option>
-                      <option>India </option>
-                      <option>U.S</option>
-                    </select>
+                            <p-select [options]="products" formControlName="Product" optionLabel="name" optionValue="id" placeholder="انتخاب کنید" style="width: 100%">
+                            </p-select>
                         </div>
 
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">ارسال</button>
+                            <button class="btn btn-primary" type="submit" (click)="SubmitNewUser()">ارسال</button>
                         </div>
                     </form>
                 </div>

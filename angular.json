@@ -75,7 +75,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "100MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -119,10 +119,17 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/css/style.css",
-              "src/assets/styles.css",
               "src/assets/css/vendors/bootstrap.css",
+              "src/assets/css/vendors/icofont.css",
+              "src/assets/css/vendors/themify.css",
+              "src/assets/css/vendors/flag-icon.css",
               "src/assets/css/vendors/feather-icon.css",
+              "src/assets/css/vendors/slick.css",
+              "src/assets/css/vendors/slick-theme.css",
+              "src/assets/css/vendors/scrollbar.css",
+              "src/assets/css/vendors/animate.css",
+              "src/assets/css/font-awesome.css",
+              "src/assets/css/style.css",
               "src/assets/css/color-1.css",
               "src/assets/css/responsive.css"
             ]

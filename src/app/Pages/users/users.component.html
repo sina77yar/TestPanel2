@@ -8,7 +8,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard-01.html">
+                            <a href="/">
                                 <svg class="stroke-icon">
                 <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
               </svg></a>
@@ -36,23 +36,26 @@
                                 <th scope="col">نام و نام خانوادگی</th>
                                 <th scope="col">محصول تحت پوشش </th>
                                 <th scope="col">کشور حوزه فعالیت</th>
-                                <th scope="col">ثبت های موفق</th>
+                                <th scope="col">شهر حوزه فعالیت</th>
                                 <th scope="col">عملیات</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @for (user of users; track $index) {
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Astrid: NE اشتراک‌گذاری شده مدیریت شده</td>
-                                <td>Astrid: NE اشتراک‌گذاری شده مدیریت شده</td>
-                                <td>متوسط</td>
-                                <td>0.33 </td>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ user?.fullName }}</td>
+                                <td>{{ user?.product?.name }}</td>
+                                <td>{{ user?.contry?.name }}</td>
+                                <td>{{ user?.province?.provinceName }}</td>
                                 <td>
-                                    <button class="btn btn-warning">ویرایش</button>
-                                    <button class="btn btn-danger" style="margin-right: 2%;">حذف</button>
+                                    <button class="btn btn-danger" style="margin-right: 1%;"(click)="ChangeUserActive(user.id)"*ngIf="user.isActive == true">غیرفعالسازی</button>
+                                    <button class="btn btn-success" style="margin-right: 1%;"(click)="ChangeUserActive(user.id)"*ngIf="user.isActive == false">فعالسازی</button>
+                                    <button class="btn btn-info"style="margin-right: 1%;" type="button" data-bs-toggle="modal" data-bs-target="#editModal" (click)="FillChangePassForm(user.id)">تغییر رمز عبور</button>
+
                                 </td>
                             </tr>
-
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -61,3 +64,27 @@
     </div>
 </div>
 <!-- Container-fluid Ends-->
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">تغییر رمزعبور</h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal"  aria-label="بستن"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex mt-3">
+                        <div class="col-6">
+                            <label class="form-label" for="fullname">رمزعبور جدید</label>
+                            <input class="form-control" id="fullname" type="text" [(ngModel)]="newPass" placeholder="رمزعبور جدید" aria-label="رمزعبور جدید" required>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">بستن</button>
+                <button class="btn btn-primary" type="button" (click)="changeUserPass(newPass)">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+</div>

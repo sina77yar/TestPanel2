@@ -1,6 +1,6 @@
-import { Injectable, Renderer2 ,RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { RegisterUserDTO } from '../DTOs/Account/RegisterUserDTO';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginUserDTO } from '../DTOs/Account/LoginUserDTO';
 import { CurrentUser } from '../DTOs/Account/CurrentUserDTO';
@@ -25,6 +25,9 @@ export class AuthService {
     this.renderer = rendererFactory.createRenderer(null, null);
 
   }
+
+
+
   updateSidebar() {
     this.loadCurrentUser().subscribe(user => {
 
@@ -43,7 +46,7 @@ export class AuthService {
       .pipe(
         map(res => {
           if (res.status === 'success') {
-            const user = new CurrentUser(res.data.userId, res.data.fullname, res.data.phone, res.data.email,"",res.data.isAdmin);
+            const user = new CurrentUser(res.data.userId, res.data.fullname, res.data.phone, res.data.email, "", res.data.isAdmin);
             this.setCurrentUser(user);
             return user;
           }
@@ -66,7 +69,7 @@ export class AuthService {
     return this.http.post<any>('api/AdminAccount/loginadmin', registerData)
   }
   checkUserAdminAuth(): Observable<ICheckUserAuthResult> {
-    return this.http.post<ICheckUserAuthResult>("api/AdminAccount/check-auth", null);
+    return this.http.post<ICheckUserAuthResult>("api/AdminAccount/check-auth",  {});
   }
   checkUserAuth(): Observable<ICheckUserAuthResult> {
     return this.http.post<ICheckUserAuthResult>("api/account/check-auth", null);
@@ -81,7 +84,8 @@ export class AuthService {
     return this.http.post<any>('api/Account/ChangeUserPassword', EditData)
   }
 
-  GetAllCustomers(): Observable<IResponseResult<any>> {
-    return this.http.get<IResponseResult<any>>('api/Users/GetAllCustomers');
+
+  changeUserActive(id: number): Observable<any> {
+    return this.http.get<any>('api/AdminAccount/changeUserActive/' + id)
   }
 }

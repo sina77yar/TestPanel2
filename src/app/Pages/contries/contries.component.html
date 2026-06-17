@@ -8,7 +8,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard-01.html">
+                            <a href="/">
                                 <svg class="stroke-icon">
                 <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
               </svg></a>
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit" (click)="SubmitNewContry()">ارسال</button>
+                            <button class="btn btn-primary" type="submit" (click)="SubmitNewContry()">ثبت</button>
                         </div>
                     </form>
                 </div>
@@ -174,6 +174,7 @@
                                     <tr>
                                         <th scope="col">ردیف</th>
                                         <th scope="col">نام شهر</th>
+                                        <th scope="col">موقعیت نسبت به کشور</th>
 
                                         <th scope="col">عملیات</th>
                                     </tr>
@@ -183,6 +184,7 @@
                                     <tr>
                                         <th scope="row">{{ $index + 1 }}</th>
                                         <td>{{ province.provinceName }}</td>
+                                        <td>{{ getSideName(province.sideOfContryTypes) }}                                        </td>
                                         <td>
                                             <button class="btn btn-danger" style="margin-right: 1%;"  (click)="DeleteProvince(province.id)">حذف</button>
 

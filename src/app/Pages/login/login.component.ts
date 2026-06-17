@@ -62,6 +62,15 @@ export class LoginComponent implements OnInit {
           timer:2000
         });
       }
+      if (res.status == "Error") {
+        Swal.fire({
+          title: 'خطا' ,
+          text: res.data.message,
+          icon: 'error',
+          showConfirmButton:false,
+          timer:2000
+        });
+      }
       const currentUser = new CurrentUser(
         res.data.userid,
         res.data.fullname,

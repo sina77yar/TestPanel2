@@ -1,12 +1,11 @@
 export class RegisterUserDTO {
     constructor(
         public email: string,
-        public firstname: string,
-        public lastname: string,
+        public fullname: string,
         public password: string,
-        public confirmPassword: string,
-        public address: string,
-        public phone: string,
+        public contryId: number,
+        public provinceId: number,
+        public productId: number,
     ) {
 
     }

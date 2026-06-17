@@ -35314,12 +35314,14 @@ body[class*=dark-] .for-light {
   4.2 Theme-customizer CSS Start
 ==========================**/
 .customizer-links {
+  display: none !important;
   position: fixed;
   right: 0px;
   top: 50%;
   z-index: 3;
   transform: translate(0, -50%);
   box-shadow: 0 0 37px rgba(8, 21, 66, 0.1);
+  
 }
 .customizer-links > .nav {
   border-radius: 8px;

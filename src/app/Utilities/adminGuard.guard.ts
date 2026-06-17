@@ -10,10 +10,8 @@ export const adminGuard: CanActivateFn = (route, state) => {
   return authService.loadCurrentUser().pipe(
     map(user => {
       if (user?.IsAdmin) {
-        // اگر ادمین بود اجازه ورود
         return true;
       } else {
-        // اگر ادمین نبود → هدایت به صفحه عدم دسترسی
         router.navigate(['/access-denied']); 
         return false;
       }

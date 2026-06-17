@@ -3,12 +3,12 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>مدیریت شرکتات</h4>
+                    <h4>مدیریت شرکت ها</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard-01.html">
+                            <a href="/">
                                 <svg class="stroke-icon">
                 <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
               </svg></a>
@@ -52,6 +52,9 @@
                             <tr>
                                 <th scope="col">ردیف</th>
                                 <th scope="col">نام شرکت</th>
+                                <th scope="col">شماره تماس</th>
+                                <th scope="col">نام رابط</th>
+                                <th scope="col">ثبت کننده</th>
 
                                 <th scope="col">عملیات</th>
                             </tr>
@@ -61,6 +64,13 @@
                             <tr>
                                 <th scope="row">{{ $index + 1 }}</th>
                                 <td>{{ Company.name }}</td>
+                                <td>{{ Company.companyPhone || "-" }} </td>
+                                <td>{{ Company.contactPerson || "-" }}</td>
+                                <td>
+                                    <span class="badge" [ngClass]="Company.isAddByBroker ? 'bg-success' : 'bg-danger'">
+                                      {{ Company.isAddByBroker ? 'توسط کاربر:  '+ Company.addedBy.fullName  : 'ادمین' }}
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editModal" (click)="FillEditForm(Company)">ویرایش</button>
                                     <button class="btn btn-danger" style="margin-right: 2%;" data-bs-toggle="modal" data-bs-target="#ConfirmDeleteModal" (click)="sendId(Company.id)">حذف</button>
@@ -93,7 +103,7 @@
                         </div>
                         <div class="col-6">
                             <label class="form-label" for="fullname">وضعیت</label>
-                            <button class="form-control btn btn-secondary" formControlName="isActive" *ngIf="editCompany.controls['isActive'].value == false" type="button"(click)="ToggleIsActive()">
+                            <button class="form-control btn btn-secondary" formControlName="isActive" *ngIf="editCompany.controls['isActive'].value == false" type="button" (click)="ToggleIsActive()">
                             غیرفعال
                           </button>
                             <button class="form-control btn btn-primary active" formControlName="isActive" *ngIf="editCompany.controls['isActive'].value == true" type="button" title="btn btn-primary active" (click)="ToggleIsActive()">فعال</button>

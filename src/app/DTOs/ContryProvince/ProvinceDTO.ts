@@ -6,7 +6,7 @@ export class ProvinceDTO {
         public provinceName: string,
         public ContryId: number,
         public isActive: boolean,
-        public SideOfContryTypes: SideOfContryTypes
+        public sideOfContryTypes: SideOfContryTypes
     ) { }
 }
 

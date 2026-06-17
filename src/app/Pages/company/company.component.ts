@@ -3,11 +3,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { CompanyDTO, NewCompanyDTO } from '../../DTOs/Company/CompanyDTO';
 import { ApiServicesService } from '../../Services/api-services.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-company',
   standalone: false,
-  
+
   templateUrl: './company.component.html',
   styleUrl: './company.component.scss'
 })
@@ -19,7 +20,7 @@ export class CompanyComponent implements OnInit {
   public SubmitCompany: FormGroup<any> = new FormGroup({});;
 
   constructor(private apiService: ApiServicesService, private cdr: ChangeDetectorRef) { }
-  Companies: CompanyDTO[] = [];
+  Companies: any[] = [];
 
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator;
@@ -62,11 +63,20 @@ export class CompanyComponent implements OnInit {
   SubmitNewCompany() {
     var Company = new NewCompanyDTO(
       this.SubmitCompany.controls["name"].value,
-      true
+      true,
+      false,
+      null
     );
     this.apiService.SubmitNewCompany(Company).subscribe(res => {
-      this.GetAllCompanies();
-      this.SubmitCompany.reset();
+      if (res.status == "Error") {
+
+        return Swal.fire(res.data, "", "warning")
+      }
+      else {
+        this.GetAllCompanies();
+        this.SubmitCompany.reset();
+        return Swal.fire("ثبت با موفقیت انجام شد", "", "success")
+      }
     });
   }
   SubmitEditCompany() {
@@ -74,6 +84,8 @@ export class CompanyComponent implements OnInit {
       this.editCompany.controls["Id"].value,
       this.editCompany.controls["name"].value,
       this.editCompany.controls["isActive"].value,
+      false
+      , null
     );
     this.apiService.SubmitEditCompany(Company).subscribe(res => {
       this.GetAllCompanies();
@@ -84,7 +96,13 @@ export class CompanyComponent implements OnInit {
     if (this.selectedDeleteId != 0) {
 
       this.apiService.DeleteCompany(this.selectedDeleteId).subscribe(res => {
-        this.selectedDeleteId = 0;
+        if (res.status == "Error") {
+          Swal.fire(res.data, "", "error");
+        }
+        else {
+          this.selectedDeleteId = 0;
+          Swal.fire("با موفقیت انجام شد", "", "success");
+        }
         this.GetAllCompanies();
       });
     }

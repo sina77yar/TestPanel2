@@ -1,10 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   standalone: false,
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.scss'],
+  encapsulation: ViewEncapsulation.None 
 })
 export class Sidebar implements AfterViewInit {
 

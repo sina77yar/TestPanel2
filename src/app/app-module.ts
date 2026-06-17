@@ -32,12 +32,20 @@ import { NotFoundComponent } from './Pages/not-found/not-found.component';
 import { SelectModule } from 'primeng/select';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/Aura';
+import { HomeComponent } from './Pages/home/home.component';
+import { WhiteListComponent } from './Pages/white-list/white-list.component';
+import { PersianDatePipe } from './pipes/persian-date.pipe';
+import { PreSuccessComponent } from './Pages/pre-success/pre-success.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TableModule } from 'primeng/table';
+
 @NgModule({
   declarations: [
     App,
     Sidebar,
     Dashboard,
     Footer,
+    // Sidebar,
     TasksComponent,
     NewTaskComponent,
     ProductsComponent,
@@ -49,7 +57,10 @@ import Aura from '@primeuix/themes/Aura';
     AllMyTask,
     LoginComponent,
     AccessDeniedComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    HomeComponent,
+    WhiteListComponent,
+    PreSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +71,11 @@ import Aura from '@primeuix/themes/Aura';
     MatTableModule,
     MatPaginatorModule,
     FormsModule,
-    SelectModule, 
-    HttpClientModule  ,
+    SelectModule,
+    HttpClientModule,
+    PersianDatePipe,
+    CheckboxModule,
+    TableModule
   ],
   providers: [
     CookieService, {
@@ -73,16 +87,17 @@ import Aura from '@primeuix/themes/Aura';
     provideZonelessChangeDetection(),
     providePrimeNG({
       theme: {
-          preset: Aura,
-          options: {
-              darkModeSelector: false, // مهم
-              primary: 'blue',
-              surface: 'light'
-          }
+        preset: Aura,
+        options: {
+          darkModeSelector: false, // مهم
+          primary: 'blue',
+          surface: 'light'
+        }
       }
-  })
+    })
   ],
-  bootstrap: [App, Sidebar,
+  bootstrap: [App,
+    //  Sidebar,
     Footer]
 })
 export class AppModule { }

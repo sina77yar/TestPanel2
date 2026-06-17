@@ -14,14 +14,20 @@ import { authguardGuard } from './Utilities/authguard.guard';
 import { loginGuard } from './Utilities/loginguard.guard';
 import { adminGuard } from './Utilities/adminGuard.guard';
 import { NotFoundComponent } from './Pages/not-found/not-found.component';
+import { HomeComponent } from './Pages/home/home.component';
+import { WhiteListComponent } from './Pages/white-list/white-list.component';
+import { PreSuccessComponent } from './Pages/pre-success/pre-success.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: Dashboard , canActivate: [authguardGuard, adminGuard]},
+  { path: '', component: Dashboard , canActivate: [authguardGuard]},
+  { path: 'dashboard', component: Dashboard , canActivate: [authguardGuard]},
   { path: 'products', component: ProductsComponent , canActivate: [authguardGuard, adminGuard] },
   { path: 'users', component: UsersComponent, canActivate: [authguardGuard, adminGuard] },
   { path: 'newuser', component: NewuserComponent, canActivate: [authguardGuard, adminGuard] },
   { path: 'contries', component: ContriesComponent, canActivate: [authguardGuard, adminGuard] },
   { path: 'companies', component: CompanyComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'whitelist', component: WhiteListComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'presuccess', component: PreSuccessComponent, canActivate: [authguardGuard, adminGuard] },
   { path: 'changepass', component: ChangePasswordComponent, canActivate: [authguardGuard] },
   { path: 'tasks', component: TasksComponent, canActivate: [authguardGuard] },
   { path: 'allmytasks', component: AllMyTask , canActivate: [authguardGuard]},

@@ -6,6 +6,6 @@ export interface ICheckUserAuthResult {
         address?: string,
         email?: string,
         phone?: string,
-        IsAdmin?: boolean,
+        isAdmin?: boolean,
     }
 }

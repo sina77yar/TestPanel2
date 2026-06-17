@@ -5,6 +5,7 @@ import { ApiServicesService } from '../../Services/api-services.service';
 import { ContryDTO, NewContryDTO } from '../../DTOs/ContryProvince/ContryDTO';
 import { SideOfContryTypes } from '../../DTOs/ContryProvince/SideOfContryTypes';
 import { NewProvinceDTO, ProvinceDTO } from '../../DTOs/ContryProvince/ProvinceDTO';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contries',
@@ -95,7 +96,11 @@ export class ContriesComponent implements OnInit {
     { id: SideOfContryTypes.Center, name: 'مرکز' }
   ];
   selectedStatus?: SideOfContryTypes;
-
+  getSideName(id: number): string {
+    
+    var a = this.SideOfContryTypesOptions.find(x => x.id === id)?.name ?? 'نامشخص';
+    return a
+  }
   GetAllContries() {
     this.apiService.GetAllContries().subscribe({
       next: (res) => {
@@ -197,6 +202,13 @@ export class ContriesComponent implements OnInit {
   DeleteProvince(id: number) {
 
     this.apiService.DeleteProvince(id).subscribe(res => {
+            if(res.status=="Error"){
+              Swal.fire(res.data,"","error");
+            }
+            else{
+              Swal.fire("با موفقیت انجام شد","","success");
+              
+            }
       this.GetAllProvinces();
     });
 

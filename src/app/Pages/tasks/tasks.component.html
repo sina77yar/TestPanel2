@@ -8,7 +8,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard-01.html">
+                            <a href="/">
                                 <svg class="stroke-icon">
                 <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
               </svg></a>
@@ -28,44 +28,126 @@
                     <h4>ثبت معرفی جدید</h4>
                 </div>
                 <div class="card-body custom-input">
-                    <form class="row g-3" [formGroup]="TaskForm">
-                        <div class="col-xl-6 col-sm-6">
-                            <div class="col-form-label pt-0">انتخاب شرکت:<span class="font-danger">*</span></div>
-                            <p-select 
+                    <form [formGroup]="TaskForm">
+                  
+                      <!-- ✅ چک‌باکس جدا و مستقل -->
+                      <div class="mb-4">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer">
+                          <p-checkbox
+                            formControlName="IsNewCompany"
+                            [binary]="true">
+                          </p-checkbox>
+                          <span>
+                            آیا نیاز به ثبت شرکت جدید دارید؟
+                            <span class="font-danger">*</span>
+                          </span>
+                        </label>
+                      </div>
+                  
+                      <!-- ✅ بقیه فرم مرتب در گرید -->
+                      <div class="row g-3">
+                  
+                        <!-- انتخاب شرکت -->
+                        <div class="col-xl-6 col-sm-6" *ngIf="!TaskForm.get('IsNewCompany')?.value">
+                          <div class="col-form-label pt-0">
+                            انتخاب شرکت:<span class="font-danger">*</span>
+                          </div>
+                          <p-select
                             [options]="ActiveCompanies"
                             formControlName="CompanyId"
                             optionLabel="name"
                             optionValue="id"
                             placeholder="انتخاب کنید"
-                            class="w-full md:w-full"
-                            style="width: 100%"
-                            >
+                            style="width:100%">
                           </p-select>
                         </div>
-            
+                  
+                        <!-- فیلدهای ثبت شرکت جدید -->
+                        <ng-container >
+                            <div class="col-xl-6 col-sm-6"*ngIf="TaskForm.get('IsNewCompany')?.value">
+                                <div class="col-form-label pt-0">
+                                  نام شرکت:<span class="font-danger">*</span>
+                                </div>
+                                <input
+                                  class="form-control"
+                                  formControlName="CompanyName"
+                                  placeholder="نام شرکت">
+                              </div>
+                          <div class="col-xl-6 col-sm-6">
+                            <div class="col-form-label pt-0">
+                              شماره تلفن شرکت:<span class="font-danger">*</span>
+                            </div>
+                            <input
+                              class="form-control"
+                              formControlName="CompanyPhone"
+                              placeholder="09123456789">
+                          </div>
+                  
+                          <div class="col-xl-6 col-sm-6">
+                            <div class="col-form-label pt-0">
+                              نام فرد رابط:<span class="font-danger">*</span>
+                            </div>
+                            <input
+                              class="form-control"
+                              formControlName="ContactPerson"
+                              placeholder="نام و نام خانوادگی">
+                          </div>
+                  
+                        </ng-container>
+                  
+                        <!-- انتخاب محصول -->
                         <div class="col-xl-6 col-sm-6">
-                            <div class="col-form-label pt-0">وضعیت:<span class="font-danger">*</span></div>
-                     
-                                <p-select
-                                [options]="taskStatusOptions"
-                                formControlName="Status"
-                                optionLabel="name"
-                                optionValue="id"
-                                placeholder="انتخاب کنید"
-                                style="width: 100%"
-                              >
-                              </p-select>
+                          <div class="col-form-label pt-0">
+                            انتخاب محصول:<span class="font-danger">*</span>
+                          </div>
+                          <p-select
+                            [options]="ActiveProducts"
+                            formControlName="ProductId"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="انتخاب کنید"
+                            style="width:100%">
+                          </p-select>
                         </div>
-                        <div class="col-xl-12 col-sm-6">
-                            <label class="form-label" for="fullname">توضیحات </label>
-                            <input class="form-control" formControlName="Description" id="fullname" type="text" placeholder="توضیحات " aria-label="توضیحات " required>
+                  
+                        <!-- وضعیت -->
+                        <div class="col-xl-6 col-sm-6">
+                          <div class="col-form-label pt-0">
+                            وضعیت:<span class="font-danger">*</span>
+                          </div>
+                          <p-select
+                            [options]="taskStatusOptions"
+                            formControlName="Status"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="انتخاب کنید"
+                            style="width:100%">
+                          </p-select>
                         </div>
-
-                        <div class="col-12">
-                            <button class="btn btn-primary" (click)="SubmitNewTask()" type="submit">ارسال</button>
+                  
+                        <!-- توضیحات -->
+                        <div class="col-xl-6 col-sm-6">
+                          <div class="col-form-label pt-0">
+                            توضیحات:<span class="font-danger">*</span>
+                          </div>
+                          <input
+                            class="form-control"
+                            formControlName="Description"
+                            placeholder="توضیحات">
                         </div>
+                  
+                      </div>
+                  
+                      <div class="mt-4">
+                        <button class="btn btn-primary" type="submit" (click)="SubmitNewTask()">
+                          ثبت
+                        </button>
+                      </div>
+                  
                     </form>
-                </div>
+                  </div>
+                  
+                  
             </div>
         </div>
         <div class="col-sm-12">
@@ -79,22 +161,28 @@
                             <tr>
                                 <th scope="col">ردیف</th>
                                 <th scope="col">نام شرکت </th>
+                                <th scope="col">نام محصول </th>
                                 <th scope="col">وضعیت </th>
 
-                                <th scope="col">عملیات</th>
+                                <!-- <th scope="col">عملیات</th> -->
                             </tr>
                         </thead>
                         <tbody>
+                            @for (task of AllTodayTasks; track $index) {
                             <tr>
-                                <th scope="row">1</th>
-                                <td>متوسط</td>
-                                <td>متوسط</td>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ task.company.name }}</td>
+                                <td>{{ task.product.name }}</td>
                                 <td>
-                                    <button class="btn btn-warning">ویرایش</button>
-                                    <button class="btn btn-danger" style="margin-right: 2%;">حذف</button>
+                                    <span [ngClass]="getStatusInfo(task.brokerDetailStatusTypes).class">
+                                        {{ getStatusInfo(task.brokerDetailStatusTypes).text }}
+                                    </span>
                                 </td>
+                                <!-- <td>
+                                    <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editModal" >تغییر وضعیت</button>
+                                </td> -->
                             </tr>
-
+                            }
                         </tbody>
                     </table>
                 </div>
