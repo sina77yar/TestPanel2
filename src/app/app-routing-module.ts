@@ -8,23 +8,34 @@ import { CompanyComponent } from './Pages/company/company.component';
 import { ChangePasswordComponent } from './Pages/change-password/change-password.component';
 import { NewuserComponent } from './Pages/users/newuser/newuser.component';
 import { TasksComponent } from './Pages/tasks/tasks.component';
+import { AllMyTask } from './Pages/tasks/all-my-task/all-my-task';
+import { LoginComponent } from './Pages/login/login.component';
+import { authguardGuard } from './Utilities/authguard.guard';
+import { loginGuard } from './Utilities/loginguard.guard';
+import { adminGuard } from './Utilities/adminGuard.guard';
+import { NotFoundComponent } from './Pages/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: Dashboard },
-  { path: 'products', component: ProductsComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'newuser', component: NewuserComponent },
-  { path: 'contries', component: ContriesComponent },
-  { path: 'companies', component: CompanyComponent },
-  { path: 'changepass', component: ChangePasswordComponent },
-  { path: 'tasks', component: TasksComponent },
+  { path: 'dashboard', component: Dashboard , canActivate: [authguardGuard, adminGuard]},
+  { path: 'products', component: ProductsComponent , canActivate: [authguardGuard, adminGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'newuser', component: NewuserComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'contries', component: ContriesComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'companies', component: CompanyComponent, canActivate: [authguardGuard, adminGuard] },
+  { path: 'changepass', component: ChangePasswordComponent, canActivate: [authguardGuard] },
+  { path: 'tasks', component: TasksComponent, canActivate: [authguardGuard] },
+  { path: 'allmytasks', component: AllMyTask , canActivate: [authguardGuard]},
+  { path: 'login', component: LoginComponent ,canActivate: [loginGuard] },
+
+
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { 
+export class AppRoutingModule {
 
 
 }

@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   standalone: false,
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss',
+  styleUrls: ['./sidebar.scss'],
 })
-export class Sidebar {
+export class Sidebar implements AfterViewInit {
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      ['sidebar-menu.js', 'sidebar-pin.js', 'script.js'].forEach(file => {
+        const script = document.createElement('script');
+        script.src = `assets/js/${file}`;
+        document.body.appendChild(script);
+      });
+    }, 100);
+  }
 }

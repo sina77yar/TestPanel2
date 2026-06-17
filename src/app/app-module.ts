@@ -22,8 +22,16 @@ import { Interceptor } from './Utilities/Interceptor';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AllMyTask } from './Pages/tasks/all-my-task/all-my-task';
+import { LoginComponent } from './Pages/login/login.component';
+import { SweetAlert2LoaderService, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal from 'sweetalert2';
+import { AccessDeniedComponent } from './Pages/access-denied/access-denied.component';
+import { NotFoundComponent } from './Pages/not-found/not-found.component';
+import { SelectModule } from 'primeng/select';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/Aura';
 @NgModule({
   declarations: [
     App,
@@ -38,6 +46,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     UsersComponent,
     ChangePasswordComponent,
     NewuserComponent,
+    AllMyTask,
+    LoginComponent,
+    AccessDeniedComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +59,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
+    FormsModule,
+    SelectModule, 
     HttpClientModule  ,
   ],
   providers: [
@@ -56,7 +70,17 @@ import { ReactiveFormsModule } from '@angular/forms';
       multi: true
     }, provideAnimationsAsync(),
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection()
+    provideZonelessChangeDetection(),
+    providePrimeNG({
+      theme: {
+          preset: Aura,
+          options: {
+              darkModeSelector: false, // مهم
+              primary: 'blue',
+              surface: 'light'
+          }
+      }
+  })
   ],
   bootstrap: [App, Sidebar,
     Footer]

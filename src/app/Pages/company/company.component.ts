@@ -64,9 +64,9 @@ export class CompanyComponent implements OnInit {
       this.SubmitCompany.controls["name"].value,
       true
     );
-    this.apiService.SubmitEditCompany(Company).subscribe(res => {
+    this.apiService.SubmitNewCompany(Company).subscribe(res => {
       this.GetAllCompanies();
-      this.editCompany.reset();
+      this.SubmitCompany.reset();
     });
   }
   SubmitEditCompany() {

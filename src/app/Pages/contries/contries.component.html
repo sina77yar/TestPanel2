@@ -28,14 +28,14 @@
                     <h4>ثبت کشور جدید</h4>
                 </div>
                 <div class="card-body custom-input">
-                    <form class="row g-3">
+                    <form class="row g-3" [formGroup]="SubmitContry">
                         <div class="col-12">
                             <label class="form-label" for="fullname">نام کشور</label>
-                            <input class="form-control" id="fullname" type="text" placeholder="نام کشور" aria-label="نام کشور" required>
+                            <input class="form-control" id="fullname" type="text" placeholder="نام کشور" aria-label="نام کشور" formControlName="name" required>
                         </div>
 
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">ارسال</button>
+                            <button class="btn btn-primary" type="submit" (click)="SubmitNewContry()">ارسال</button>
                         </div>
                     </form>
                 </div>
@@ -44,7 +44,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">لیست کشورها نوین آترا</h4>
+                    <h4 class="mb-0">لیست کشورها</h4>
                 </div>
                 <div class="table-responsive signal-table">
                     <table class="table table-hover">
@@ -57,18 +57,147 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @for (Contry of Contries; track $index) {
                             <tr>
-                                <th scope="row">1</th>
-                                <td>متوسط</td>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ Contry.name }}</td>
                                 <td>
-                                    <button class="btn btn-warning">ویرایش</button>
-                                    <button class="btn btn-danger" style="margin-right: 2%;">حذف</button>
+                                    <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#ProvinceModal" (click)="SelectedContry(Contry.id)">استان ها</button>
+                                    <button class="btn btn-warning" style="margin-right: 1%;" type="button" data-bs-toggle="modal" data-bs-target="#editModal" (click)="FillEditForm(Contry)">ویرایش</button>
+                                    <button class="btn btn-danger" style="margin-right: 1%;" data-bs-toggle="modal" data-bs-target="#ConfirmDeleteModal" (click)="sendId(Contry.id)">حذف</button>
+
                                 </td>
                             </tr>
-
+                            }
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">ویرایش کشور</h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex mt-3">
+                    <form class="row g-3" style="padding: 5%;" [formGroup]="editContry">
+                        <div class="col-6">
+                            <label class="form-label" for="fullname">نام کشور</label>
+                            <input class="form-control" id="fullname" type="text" formControlName="name" placeholder="نام کشور" aria-label="نام کشور" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="fullname">وضعیت</label>
+                            <button class="form-control btn btn-secondary" formControlName="isActive" *ngIf="editContry.controls['isActive'].value == false" type="button" (click)="ToggleIsActive()">
+                            غیرفعال
+                          </button>
+                            <button class="form-control btn btn-primary active" formControlName="isActive" *ngIf="editContry.controls['isActive'].value == true" type="button" title="btn btn-primary active" (click)="ToggleIsActive()">فعال</button>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">بستن</button>
+                <button class="btn btn-primary" type="button" (click)="SubmitEditContry()">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ConfirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-toggle-wrapper text-center">
+                    <ul class="modal-img">
+                        <li><img src="../assets/images/gif/danger.gif" alt="error"></li>
+                    </ul>
+                    <h4 class="pb-2">اخطار!</h4>
+                    <p>آیا از حذف این رکورد مطمئن هستید؟</p>
+
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <button class="btn btn-success" type="button" data-bs-dismiss="modal">
+                        خیر، حذف نکن
+                      </button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" (click)="DeleteContry()">
+                        بله، حذف کن
+                      </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ProvinceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">مدیریت شهر</h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex mt-3">
+                    <form class="row g-3" style="padding: 5%;" [formGroup]="ProvinceForm">
+                        <div class="col-12">
+                            <label class="form-label" for="fullname">نام شهر</label>
+                            <input class="form-control" id="fullname" type="text" formControlName="name" placeholder="نام شهر" aria-label="نام شهر" required>
+                        </div>
+                        <div class="col-xl-12 col-sm-12">
+                            <div class="col-form-label pt-0">موقعیت جغرافیایی به نسبت کشور:<span class="font-danger">*</span></div>
+                            <p-select [options]="SideOfContryTypesOptions" formControlName="SideOfContryTypes" optionLabel="name" optionValue="id" placeholder="انتخاب کنید" style="width: 100%">
+                            </p-select>
+                        </div>
+          
+                    </form>
+                
+                </div>
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">لیست شهرهای این کشور</h4>
+                        </div>
+                        <div class="table-responsive signal-table">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ردیف</th>
+                                        <th scope="col">نام شهر</th>
+
+                                        <th scope="col">عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (province of Provinces; track $index) {
+                                    <tr>
+                                        <th scope="row">{{ $index + 1 }}</th>
+                                        <td>{{ province.provinceName }}</td>
+                                        <td>
+                                            <button class="btn btn-danger" style="margin-right: 1%;"  (click)="DeleteProvince(province.id)">حذف</button>
+
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">بستن</button>
+                <button class="btn btn-primary" type="button" (click)="SubmitNewProvince()">ذخیره تغییرات</button>
             </div>
         </div>
     </div>
